@@ -1,6 +1,6 @@
 # raspinit.sh
 
-Script post installation d'un Raspberry Pi
+Script post installation pour Raspberry Pi
 
 - Désactive le swap
 
