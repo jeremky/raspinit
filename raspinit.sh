@@ -52,14 +52,6 @@ if [ $bluetooth = "off" ] ; then
     echo "Bluetooth désactivé"
 fi
 
-## Ip config
-echo "" >> /etc/dhcpcd.conf
-echo "# Static IP configuration" | tee -a /etc/dhcpcd.conf
-echo "interface eth0" | tee -a /etc/dhcpcd.conf
-echo "static ip_address=$ip/24" | tee -a /etc/dhcpcd.conf
-echo "static routers=$gateway" | tee -a /etc/dhcpcd.conf
-echo "static domain_name_servers=$dns" | tee -a /etc/dhcpcd.conf
-
 ## Log2ram
 if [ -f $dir/log2ram/log2ram.sh ] ; then
     $dir/log2ram/log2ram.sh
