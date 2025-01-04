@@ -1,17 +1,15 @@
 #!/bin/dash
 set -e
 
-## Lecture de la config
-dir=$(dirname "$0")
-cfg="$dir/$(basename -s .sh $0).cfg"
-
-## Vérification
+## Vérification de l'OS
 if [ ! -f /usr/bin/raspi-config ] ; then
   echo "Incompatible !"
   exit 0
 fi
 
 ## Config
+dir=$(dirname "$0")
+cfg="$dir/raspinit.cfg"
 if [ -f $cfg ] ; then
   . $cfg
 else
