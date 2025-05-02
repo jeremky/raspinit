@@ -1,13 +1,37 @@
 # raspinit.sh
 
-Script post installation pour Raspberry Pi
+Script post installation pour Raspberry Pi. Il permet d'automatiser la configuration de certains éléments de votre carte :
 
 - Désactive le swap
 
-- Ajoute un alias "temp" pour obtenir la température du raspberry
+- Ajoute un alias `temp` pour obtenir la température du raspberry
 
 - Désactive le Wifi et le Bluetooth
 
-- Passe le raspberry en IP fixe (en fonction des configurations dans raspinit.cfg)
-
 - Installe Log2Ram
+
+## Configuration
+
+Un fichier de configuration `raspinit.cfg` permet de paramétrer l'exécution du script selon vos préférences : 
+
+```txt
+# raspinit config
+swap=off
+log2ram=on
+
+# Network
+wifi=off
+bluetooth=off
+```
+
+## Exécution
+
+Une fois le fichier `raspinit.cfg` modifié, lancez le script avec les droits root :
+
+```bash
+sudo ./raspinit.sh
+```
+
+## Log2ram
+
+Si la variabla `log2ram` est sur `on`, le script sera automatiquement lancé dans la foulée. Il vous sera demandé de redémarrer.
