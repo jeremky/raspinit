@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+dir=$(dirname "$0")
+
 # Vérification de l'OS
 if [[ ! -f /usr/bin/raspi-config ]]; then
   echo "Incompatible !"
@@ -7,8 +9,7 @@ if [[ ! -f /usr/bin/raspi-config ]]; then
 fi
 
 # Config
-dir=$(dirname "$0")
-cfg="$dir/raspinit.cfg"
+cfg=$dir/raspinit.cfg
 if [[ -f $cfg ]]; then
   . $cfg
 else
@@ -24,8 +25,7 @@ fi
 
 # Alias
 echo "" >> /etc/profile
-echo "# Temperature" >> /etc/profile
-echo "alias temp='sudo vcgencmd measure_temp'" >> /etc/profile
+echo "# Temperature\nalias temp='sudo vcgencmd measure_temp'" >> /etc/profile
 
 # Swap
 if [[ $swap = "off" ]]; then
@@ -49,7 +49,20 @@ if [[ $bluetooth = "off" ]]; then
   echo "Bluetooth désactivé"
 fi
 
-# Log2ram
-if [[ -f $dir/log2ram/log2ram.sh && $log2ram = "on" ]]; then
-  $dir/log2ram/log2ram.sh
+# Log2Ram
+if [[ $log2ram = "on" ]]; then
+  apt update && apt install -y wget rsync
+  echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ bookworm main" | tee /etc/apt/sources.list.d/azlux.list
+  wget -O /usr/share/keyrings/azlux-archive-keyring.gpg https://azlux.fr/repo.gpg
+  apt update && apt install -y log2ram
+  cp $dir/log2ram.cfg /etc/log2ram.conf
+  read -p "Redémarrage nécessaire. Confirmer (o/n): " reponse
+  case $reponse in
+    o)
+      reboot
+      ;;
+    *)
+      echo "Redémarrez avant toute autre installation !"
+      ;;
+  esac
 fi
