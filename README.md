@@ -36,4 +36,4 @@ sudo ./raspinit.sh
 
 [Log2Ram](https://github.com/azlux/log2ram) est un outil permettant de stocker les répertoires des logs en ram, afin de limiter les écritures sur la carte SD.
 
-Si la variable `log2ram` est sur `on` dans le fichier `raspinit.cfg`, le script sera automatiquement lancé dans la foulée pour l'installer. Il vous sera demandé de redémarrer, comme spécifié par son créateur.
+Si la variable `log2ram` est sur `on` dans le fichier `raspinit.cfg`, le script sera automatiquement exécuté. Il vous sera demandé de redémarrer, comme spécifié par son créateur.
