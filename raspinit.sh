@@ -25,7 +25,7 @@ fi
 
 # Alias
 echo "" >> /etc/profile
-echo "# Temperature\nalias temp='sudo vcgencmd measure_temp'" >> /etc/profile
+echo -e "# Temperature\nalias temp='sudo vcgencmd measure_temp'" >> /etc/profile
 
 # Swap
 if [[ $swap = "off" ]]; then
