@@ -2,10 +2,15 @@
 
 dir=$(dirname "$0")
 
+# Messages colorisés
+error()    { echo -e "\033[0;31m====> $*\033[0m" ;}
+message()  { echo -e "\033[0;32m====> $*\033[0m" ;}
+warning()  { echo -e "\033[0;33m====> $*\033[0m" ;}
+
 # Vérification de l'OS
 if [[ ! -f /usr/bin/raspi-config ]]; then
-  echo "Incompatible !"
-  exit 0
+  error "Appareil Incompatible !"
+  exit 1
 fi
 
 # Config
@@ -13,18 +18,18 @@ cfg=$dir/raspinit.cfg
 if [[ -f $cfg ]]; then
   . $cfg
 else
-  echo "Fichier $cfg introuvable"
-  exit 0
+  error "Fichier $cfg introuvable"
+  exit 1
 fi
 
 # User
 if [[ $USER != root ]]; then
-  echo "Droits root nécessaires"
-  exit 0
+  error "Droits root nécessaires"
+  exit 1
 fi
 
 # Alias
-echo "" >> /etc/profile
+echo >> /etc/profile
 echo -e "# Temperature\nalias temp='sudo vcgencmd measure_temp'" >> /etc/profile
 
 # Swap
@@ -39,14 +44,14 @@ fi
 if [[ $wifi = "off" ]]; then
   echo "dtoverlay=disable-wifi" | tee -a /boot/firmware/config.txt
   systemctl disable wpa_supplicant
-  echo "Wifi désactivé"
+  message "Wifi désactivé"
 fi
 
 # Bluetooth
 if [[ $bluetooth = "off" ]]; then
   echo "dtoverlay=disable-bt" | tee -a /boot/firmware/config.txt
   systemctl disable hciuart
-  echo "Bluetooth désactivé"
+  message "Bluetooth désactivé"
 fi
 
 # Log2Ram
@@ -62,7 +67,7 @@ if [[ $log2ram = "on" ]]; then
       reboot
       ;;
     *)
-      echo "Redémarrez avant toute autre installation !"
+      warning "Redémarrez avant toute autre installation !"
       ;;
   esac
 fi
