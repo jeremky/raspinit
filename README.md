@@ -10,6 +10,8 @@ Script post installation pour Raspberry Pi. Il permet d'automatiser la configura
 
 - Installe [Log2Ram](https://github.com/azlux/log2ram), un outil permettant de stocker le répertoire `/var/log` en ram, afin de limiter les écritures sur la carte SD
 
+- Installe Adguard Home
+
 ## Configuration
 
 Un fichier de configuration `raspinit.cfg` permet de paramétrer l'exécution du script selon vos préférences : 
@@ -18,6 +20,7 @@ Un fichier de configuration `raspinit.cfg` permet de paramétrer l'exécution du
 # raspinit config
 swap=off
 log2ram=on
+adguard=on
 
 # Network
 wifi=off

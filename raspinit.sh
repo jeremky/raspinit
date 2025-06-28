@@ -54,6 +54,13 @@ if [[ $bluetooth = "off" ]]; then
   message "Bluetooth désactivé"
 fi
 
+# Adguard Home
+if [[ $adguard = "on" ]]; then
+  warning "Installation de Adguard Home..."
+  curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v
+  message "Installattion de Adguard Home terminée"
+fi
+
 # Log2Ram
 if [[ $log2ram = "on" ]]; then
   apt update && apt install -y wget rsync
