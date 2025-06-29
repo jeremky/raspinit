@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-dir=$(dirname "$0")
+dir=$(dirname "$(realpath "$0")")
 
 # Messages colorisés
 error()    { echo -e "\033[0;31m====> $*\033[0m" ;}
@@ -54,6 +54,16 @@ if [[ $bluetooth = "off" ]]; then
   message "Bluetooth désactivé"
 fi
 
+## DDclient
+if [[ $ddclient = "on" ]]; then
+  if [[ -f /usr/bin/ddclient ]] && [[ -f $dir/cfg/ddclient.cfg ]]; then
+    cp $dir/cfg/ddclient.cfg /etc/ddclient.conf
+    systemctl restart ddclient
+  else
+    error "Fichier $dir/cfg/ddclient.cfg non présent"
+  fi
+fi
+
 # Adguard Home
 if [[ $adguard = "on" ]]; then
   warning "Installation de Adguard Home..."
@@ -67,7 +77,7 @@ if [[ $log2ram = "on" ]]; then
   echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ bookworm main" | tee /etc/apt/sources.list.d/azlux.list
   wget -O /usr/share/keyrings/azlux-archive-keyring.gpg https://azlux.fr/repo.gpg
   apt update && apt install -y log2ram
-  cp $dir/log2ram.cfg /etc/log2ram.conf
+  cp $dir/cfg/log2ram.cfg /etc/log2ram.conf
   read -p "Redémarrage nécessaire. Confirmer (o/n): " reponse
   case $reponse in
     o)

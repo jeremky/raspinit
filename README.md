@@ -12,6 +12,8 @@ Script post installation pour Raspberry Pi. Il permet d'automatiser la configura
 
 - Installe Adguard Home
 
+- Installe ddclient
+
 ## Configuration
 
 Un fichier de configuration `raspinit.cfg` permet de paramétrer l'exécution du script selon vos préférences : 
@@ -19,8 +21,11 @@ Un fichier de configuration `raspinit.cfg` permet de paramétrer l'exécution du
 ```txt
 # raspinit config
 swap=off
+
+# apps
 log2ram=on
 adguard=on
+ddclient=on
 
 # Network
 wifi=off
