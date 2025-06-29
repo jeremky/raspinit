@@ -21,15 +21,16 @@ Un fichier de configuration `raspinit.cfg` permet de paramétrer l'exécution du
 ```txt
 # raspinit config
 swap=off
+tempalias=on
 
-# apps
+# applications
 log2ram=on
-adguard=on
 ddclient=on
+adguard=on
 
-# Network
+# network
 wifi=off
-bluetooth=off
+bluetooth=of
 ```
 
 ## Exécution

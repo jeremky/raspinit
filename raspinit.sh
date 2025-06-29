@@ -29,8 +29,10 @@ if [[ $USER != root ]]; then
 fi
 
 # Alias
-echo >> /etc/profile
-echo -e "# Temperature\nalias temp='sudo vcgencmd measure_temp'" >> /etc/profile
+if [[ $tempalias = "on" ]]; then
+  echo >> /etc/profile
+  echo -e "# Temperature\nalias temp='sudo vcgencmd measure_temp'" >> /etc/profile
+fi
 
 # Swap
 if [[ $swap = "off" ]]; then
@@ -66,9 +68,11 @@ fi
 
 # Adguard Home
 if [[ $adguard = "on" ]]; then
+  echo
   warning "Installation de Adguard Home..."
   curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v
   message "Installattion de Adguard Home terminée"
+  echo
 fi
 
 # Log2Ram
@@ -77,7 +81,7 @@ if [[ $log2ram = "on" ]]; then
   echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ bookworm main" | tee /etc/apt/sources.list.d/azlux.list
   wget -O /usr/share/keyrings/azlux-archive-keyring.gpg https://azlux.fr/repo.gpg
   apt update && apt install -y log2ram
-  cp $dir/cfg/log2ram.cfg /etc/log2ram.conf
+  [[ -f $dir/cfg/log2ram.cfg ]] && cp $dir/cfg/log2ram.cfg /etc/log2ram.conf
   read -p "Redémarrage nécessaire. Confirmer (o/n): " reponse
   case $reponse in
     o)
