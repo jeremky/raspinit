@@ -58,7 +58,10 @@ fi
 
 ## DDclient
 if [[ $ddclient = "on" ]]; then
-  if [[ -f /usr/bin/ddclient ]] && [[ -f $dir/cfg/ddclient.cfg ]]; then
+  warning "Installation de dclient..."
+  apt update && apt install -y ddclient
+  message "Installation de ddclient effectuée"
+  if [[ -f $dir/cfg/ddclient.cfg ]]; then
     cp $dir/cfg/ddclient.cfg /etc/ddclient.conf
     systemctl restart ddclient
   else
@@ -71,7 +74,7 @@ if [[ $adguard = "on" ]]; then
   echo
   warning "Installation de Adguard Home..."
   curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v
-  message "Installattion de Adguard Home terminée"
+  message "Installation de Adguard Home effectuée"
   echo
 fi
 
