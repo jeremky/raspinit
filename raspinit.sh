@@ -58,9 +58,11 @@ fi
 
 ## DDclient
 if [[ $ddclient = "on" ]]; then
+  echo
   warning "Installation de dclient..."
   apt update && apt install -y ddclient
   message "Installation de ddclient effectuée"
+  echo
   if [[ -f $dir/cfg/ddclient.cfg ]]; then
     cp $dir/cfg/ddclient.cfg /etc/ddclient.conf
     systemctl restart ddclient
