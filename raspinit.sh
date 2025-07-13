@@ -5,7 +5,7 @@ dir=$(dirname "$(realpath "$0")")
 # Messages colorisés
 error()    { echo -e "\033[0;31m====> $*\033[0m" ;}
 message()  { echo -e "\033[0;32m====> $*\033[0m" ;}
-warning()  { echo -e "\033[0;33m====> $*\033[0m" ;}
+warning()  { echo ; echo -e "\033[0;33m====> $*\033[0m" ;}
 
 # Vérification de l'OS
 if [[ ! -f /usr/bin/raspi-config ]]; then
@@ -36,14 +36,17 @@ fi
 
 # Swap
 if [[ $swap = "off" ]]; then
+  warning "Désactivation du Swap..."
   swapoff --all
   apt -y remove dphys-swapfile
   apt -y autoremove
   rm -f /var/swap
+  message "Swap désactivé"
 fi
 
 # Wifi
 if [[ $wifi = "off" ]]; then
+  warning "Désactivation du Wifi..."
   echo "dtoverlay=disable-wifi" | tee -a /boot/firmware/config.txt
   systemctl disable wpa_supplicant
   message "Wifi désactivé"
@@ -51,14 +54,14 @@ fi
 
 # Bluetooth
 if [[ $bluetooth = "off" ]]; then
+  warning "Désactivation du Bluetooth..."
   echo "dtoverlay=disable-bt" | tee -a /boot/firmware/config.txt
   systemctl disable hciuart
   message "Bluetooth désactivé"
 fi
 
-## DDclient
+## ddclient
 if [[ $ddclient = "on" ]]; then
-  echo
   warning "Installation de ddclient..."
   apt update && apt install -y ddclient
   message "Installation de ddclient effectuée"
@@ -73,7 +76,6 @@ fi
 
 # Adguard Home
 if [[ $adguard = "on" ]]; then
-  echo
   warning "Installation de Adguard Home..."
   curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v
   message "Installation de Adguard Home effectuée"
