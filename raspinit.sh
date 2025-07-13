@@ -59,7 +59,7 @@ fi
 ## DDclient
 if [[ $ddclient = "on" ]]; then
   echo
-  warning "Installation de dclient..."
+  warning "Installation de ddclient..."
   apt update && apt install -y ddclient
   message "Installation de ddclient effectuée"
   echo

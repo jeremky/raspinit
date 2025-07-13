@@ -30,7 +30,7 @@ adguard=on
 
 # network
 wifi=off
-bluetooth=of
+bluetooth=off
 ```
 
 ## Exécution
