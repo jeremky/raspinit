@@ -24,7 +24,7 @@ swap=off
 tempalias=on
 
 # applications
-log2ram=on
+log2ram=off
 ddclient=on
 adguard=on
 
