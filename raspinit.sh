@@ -98,6 +98,7 @@ if [[ $log2ram = "on" ]]; then
       ;;
     *)
       warning "Redémarrez avant toute autre installation !"
+      echo
       ;;
   esac
 fi
