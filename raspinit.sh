@@ -84,11 +84,13 @@ fi
 
 # Log2Ram
 if [[ $log2ram = "on" ]]; then
+  warning "Installation de Log2ram..."
   apt update && apt install -y wget rsync
   echo "deb [signed-by=/usr/share/keyrings/azlux-archive-keyring.gpg] http://packages.azlux.fr/debian/ bookworm main" | tee /etc/apt/sources.list.d/azlux.list
   wget -O /usr/share/keyrings/azlux-archive-keyring.gpg https://azlux.fr/repo.gpg
   apt update && apt install -y log2ram
   [[ -f $dir/cfg/log2ram.cfg ]] && cp $dir/cfg/log2ram.cfg /etc/log2ram.conf
+  message "Installation de log2ram effectuée"
   read -p "Redémarrage nécessaire. Confirmer (o/n): " reponse
   case $reponse in
     o)
