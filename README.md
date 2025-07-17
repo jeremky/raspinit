@@ -25,7 +25,7 @@ tempalias=on
 
 # applications
 log2ram=on
-ddclient=on
+ddclient=off
 adguard=on
 
 # network
