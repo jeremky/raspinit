@@ -60,6 +60,12 @@ if [[ $bluetooth = "off" ]]; then
   message "Bluetooth désactivé"
 fi
 
+# Modem
+if [[ $modem = "off" ]]; then
+  warning "Suppression de ModemManager..."
+  sudo apt purge modemmanager
+  message "ModemManager supprimé"
+
 ## ddclient
 if [[ $ddclient = "on" ]]; then
   warning "Installation de ddclient..."

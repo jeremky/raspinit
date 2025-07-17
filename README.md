@@ -8,6 +8,8 @@ Script post installation pour Raspberry Pi. Il permet d'automatiser la configura
 
 - Désactive le Wifi et le Bluetooth
 
+- Supprime Modem Manager
+
 - Installe [Log2Ram](https://github.com/azlux/log2ram), un outil permettant de stocker le répertoire `/var/log` en ram, afin de limiter les écritures sur la carte SD
 
 - Installe Adguard Home
@@ -31,6 +33,7 @@ adguard=on
 # network
 wifi=off
 bluetooth=off
+modem=off
 ```
 
 ## Exécution
