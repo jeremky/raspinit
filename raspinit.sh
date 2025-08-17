@@ -92,9 +92,9 @@ fi
 if [[ $log2ram = "on" ]]; then
   warning "Installation de Log2ram..."
   apt update && apt install -y log2ram rsync
-  [[ -f $dir/cfg/log2ram.cfg ]] && cp $dir/cfg/log2ram.cfg /etc/log2ram.conf
+#  [[ -f $dir/cfg/log2ram.cfg ]] && cp $dir/cfg/log2ram.cfg /etc/log2ram.conf
   message "Installation de log2ram effectuée"
-  read -p "Redémarrage nécessaire. Confirmer (o/n): " reponse
+  read -p "Redémarrage nécessaire. Confirmer (o/n) : " reponse
   case $reponse in
     o)
       reboot
