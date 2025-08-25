@@ -49,6 +49,7 @@ if [[ $wifi = "off" ]]; then
   warning "Désactivation du Wifi..."
   echo "dtoverlay=disable-wifi" | tee -a /boot/firmware/config.txt
   systemctl disable wpa_supplicant
+  apt purge -y wpasupplicant
   message "Wifi désactivé"
 fi
 
@@ -57,13 +58,14 @@ if [[ $bluetooth = "off" ]]; then
   warning "Désactivation du Bluetooth..."
   echo "dtoverlay=disable-bt" | tee -a /boot/firmware/config.txt
   systemctl disable hciuart
+  apt purge -y bluez
   message "Bluetooth désactivé"
 fi
 
 # Modem
 if [[ $modem = "off" ]]; then
   warning "Suppression de ModemManager..."
-  sudo apt purge modemmanager
+  sudo apt purge -y modemmanager
   message "ModemManager supprimé"
 
 ## ddclient
