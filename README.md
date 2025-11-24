@@ -27,8 +27,9 @@ tempalias=on
 
 # applications
 log2ram=on
-ddclient=off
+ddclient=on
 adguard=on
+shairport=on
 
 # network
 wifi=off
