@@ -95,6 +95,21 @@ if [[ $adguard = "on" ]]; then
   echo
 fi
 
+# Shairport
+if [[ $shairport = "on" ]]; then
+  if [[ /usr/sbin/ufw ]]; then
+    ufw allow 319,320/udp
+    ufw allow 3689/tcp
+    ufw allow 5353
+    ufw allow 5000/tcp
+    ufw allow 7000/tcp
+    ufw allow 6000:6009/udp
+    ufw allow 32768:60999/udp
+    ufw allow 32768:60999/tcp
+    message "Règles ufw pour shairport activées"
+  fi
+fi
+
 # Log2Ram
 if [[ $log2ram = "on" ]]; then
   warning "Installation de Log2ram..."
@@ -111,18 +126,4 @@ if [[ $log2ram = "on" ]]; then
       echo
       ;;
   esac
-fi
-
-# Shairport
-if [[ $shairport = "on" ]]; then
-  if [[ /usr/sbin/ufw ]]; then
-    ufw allow 319,320/udp
-    ufw allow 3689/tcp
-    ufw allow 5353
-    ufw allow 5000/tcp
-    ufw allow 7000/tcp
-    ufw allow 6000:6009/udp
-    ufw allow 32768:60999/udp
-    ufw allow 32768:60999/tcp
-  fi
 fi

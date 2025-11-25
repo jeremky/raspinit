@@ -16,6 +16,8 @@ Script post installation pour Raspberry Pi. Il permet d'automatiser la configura
 
 - Installe ddclient
 
+- Ajoute les configurations ufw pour shairport
+
 ## Configuration
 
 Un fichier de configuration `raspinit.cfg` permet de paramétrer l'exécution du script selon vos préférences : 
