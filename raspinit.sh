@@ -95,6 +95,18 @@ if [[ $adguard = "on" ]]; then
   echo
 fi
 
+# Shairport Sync
+if [[ $shairport = "on" ]]; then
+  warning "Installation de shairport sync"
+  apt install -y shairport-sync
+  message "Installation de shirport sync effectuée"
+  echo
+  if [[ -f /$dir/cfg/shairport-sync.conf ]]; then
+    cp $dir/cfg/shairport.conf /etc/shairport-sync.conf
+    systemctl restart shairport-sync
+  fi
+fi
+
 # Log2Ram
 if [[ $log2ram = "on" ]]; then
   warning "Installation de Log2ram..."
