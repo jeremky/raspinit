@@ -26,6 +26,8 @@ fi
 if [[ $USER != root ]]; then
   error "Droits root nécessaires"
   exit 1
+else
+  apt update
 fi
 
 # Alias
@@ -68,10 +70,10 @@ if [[ $modem = "off" ]]; then
   sudo apt purge -y modemmanager
   message "ModemManager supprimé"
 
-## ddclient
+# ddclient
 if [[ $ddclient = "on" ]]; then
   warning "Installation de ddclient..."
-  apt update && apt install -y ddclient
+  apt install -y ddclient
   message "Installation de ddclient effectuée"
   echo
   if [[ -f $dir/cfg/ddclient.cfg ]]; then
@@ -99,18 +101,28 @@ fi
 if [[ $shairport = "on" ]]; then
   warning "Installation de shairport sync"
   apt install -y shairport-sync
-  message "Installation de shirport sync effectuée"
-  echo
+  if [[ -f /usr/sbin/ufw ]]; then
+    sudo ufw allow 319:320/udp
+    ufw allow 3689/tcp
+    ufw allow 5353
+    ufw allow 5000/tcp
+    ufw allow 7000/tcp
+    ufw allow 6000:6009/udp
+    ufw allow 32768:60999/udp
+    ufw allow 32768:60999/tcp
+  fi
   if [[ -f /$dir/cfg/shairport-sync.conf ]]; then
     cp $dir/cfg/shairport.conf /etc/shairport-sync.conf
     systemctl restart shairport-sync
   fi
+  message "Installation de shirport sync effectuée"
+  echo
 fi
 
 # Log2Ram
 if [[ $log2ram = "on" ]]; then
   warning "Installation de Log2ram..."
-  apt update && apt install -y log2ram rsync
+  apt install -y log2ram rsync
   [[ -f $dir/cfg/log2ram.cfg ]] && cp $dir/cfg/log2ram.cfg /etc/log2ram.conf
   message "Installation de log2ram effectuée"
   read -p "Redémarrage nécessaire. Confirmer (o/n) : " reponse
