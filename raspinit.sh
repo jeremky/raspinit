@@ -32,8 +32,7 @@ fi
 
 # Alias
 if [[ $tempalias = "on" ]]; then
-  echo >> /etc/profile
-  echo -e "# Temperature\nalias temp='sudo vcgencmd measure_temp'" >> /etc/profile
+  echo -e "\n# Temperature\nalias temp='sudo vcgencmd measure_temp'" >> /etc/profile
 fi
 
 # Swap
@@ -88,11 +87,6 @@ fi
 if [[ $adguard = "on" ]]; then
   warning "Installation de Adguard Home..."
   curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v
-  if [[ -f /usr/sbin/ufw ]]; then
-    ufw allow 67,68/udp
-    ufw allow 53
-    ufw allow 3000/tcp
-  fi
   message "Installation de Adguard Home effectuée"
   echo
 fi
@@ -101,16 +95,6 @@ fi
 if [[ $shairport = "on" ]]; then
   warning "Installation de shairport sync"
   apt install -y shairport-sync
-  if [[ -f /usr/sbin/ufw ]]; then
-    sudo ufw allow 319:320/udp
-    ufw allow 3689/tcp
-    ufw allow 5353
-    ufw allow 5000/tcp
-    ufw allow 7000/tcp
-    ufw allow 6000:6009/udp
-    ufw allow 32768:60999/udp
-    ufw allow 32768:60999/tcp
-  fi
   if [[ -f /$dir/cfg/shairport-sync.conf ]]; then
     cp $dir/cfg/shairport.conf /etc/shairport-sync.conf
     systemctl restart shairport-sync
