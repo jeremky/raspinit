@@ -35,6 +35,13 @@ if [[ $tempalias = "on" ]]; then
   echo -e "\n# Temperature\nalias temp='sudo vcgencmd measure_temp'" >> /etc/profile
 fi
 
+# TTY
+if [[ $tty1 = "off" ]]; then
+  warning "Désactivation du tty1..."
+  systemctl disable getty@tty1
+  message "tty1 désactivé"
+fi
+
 # Swap
 if [[ $swap = "off" ]]; then
   warning "Désactivation du Swap..."

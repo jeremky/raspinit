@@ -6,6 +6,8 @@ Script post installation pour Raspberry Pi. Il permet d'automatiser la configura
 
 - Ajoute un alias `temp` pour obtenir la température du raspberry
 
+- Désactive le tty1 si votre accès est uniquement par ssh (pas d'usage direct)
+
 - Désactive le Wifi et le Bluetooth
 
 - Supprime Modem Manager
@@ -16,7 +18,7 @@ Script post installation pour Raspberry Pi. Il permet d'automatiser la configura
 
 - Installe ddclient
 
-- Install Shairport Sync
+- Installe Shairport Sync
 
 ## Configuration
 
