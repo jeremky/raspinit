@@ -73,8 +73,9 @@ fi
 # Modem
 if [[ $modem = "off" ]]; then
   warning "Suppression de ModemManager..."
-  sudo apt purge -y modemmanager
+  apt purge -y modemmanager
   message "ModemManager supprimé"
+fi
 
 # ddclient
 if [[ $ddclient = "on" ]]; then
