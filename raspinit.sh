@@ -83,11 +83,11 @@ if [[ $ddclient = "on" ]]; then
   apt install -y ddclient
   message "Installation de ddclient effectuée"
   echo
-  if [[ -f $dir/config/ddclient.cfg ]]; then
-    cp $dir/config/ddclient.cfg /etc/ddclient.conf
+  if [[ -f $dir/config/ddclient.conf ]]; then
+    cp $dir/config/ddclient.conf /etc/ddclient.conf
     systemctl restart ddclient
   else
-    error "Fichier $dir/config/ddclient.cfg non présent"
+    error "Fichier $dir/config/ddclient.conf non présent"
   fi
 fi
 
@@ -115,7 +115,7 @@ fi
 if [[ $log2ram = "on" ]]; then
   warning "Installation de Log2ram..."
   apt install -y log2ram rsync
-  [[ -f $dir/config/log2ram.cfg ]] && cp $dir/config/log2ram.cfg /etc/log2ram.conf
+  [[ -f $dir/config/log2ram.conf ]] && cp $dir/config/log2ram.conf /etc/log2ram.conf
   message "Installation de log2ram effectuée"
   read -p "Redémarrage nécessaire. Confirmer (o/n) : " reponse
   case $reponse in
