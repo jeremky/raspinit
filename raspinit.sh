@@ -83,11 +83,11 @@ if [[ $ddclient = "on" ]]; then
   apt install -y ddclient
   message "Installation de ddclient effectuée"
   echo
-  if [[ -f $dir/cfg/ddclient.cfg ]]; then
-    cp $dir/cfg/ddclient.cfg /etc/ddclient.conf
+  if [[ -f $dir/config/ddclient.cfg ]]; then
+    cp $dir/config/ddclient.cfg /etc/ddclient.conf
     systemctl restart ddclient
   else
-    error "Fichier $dir/cfg/ddclient.cfg non présent"
+    error "Fichier $dir/config/ddclient.cfg non présent"
   fi
 fi
 
@@ -103,8 +103,8 @@ fi
 if [[ $shairport = "on" ]]; then
   warning "Installation de shairport sync"
   apt install -y shairport-sync
-  if [[ -f /$dir/cfg/shairport-sync.conf ]]; then
-    cp $dir/cfg/shairport.conf /etc/shairport-sync.conf
+  if [[ -f /$dir/config/shairport-sync.conf ]]; then
+    cp $dir/config/shairport.conf /etc/shairport-sync.conf
     systemctl restart shairport-sync
   fi
   message "Installation de shirport sync effectuée"
@@ -115,7 +115,7 @@ fi
 if [[ $log2ram = "on" ]]; then
   warning "Installation de Log2ram..."
   apt install -y log2ram rsync
-  [[ -f $dir/cfg/log2ram.cfg ]] && cp $dir/cfg/log2ram.cfg /etc/log2ram.conf
+  [[ -f $dir/config/log2ram.cfg ]] && cp $dir/config/log2ram.cfg /etc/log2ram.conf
   message "Installation de log2ram effectuée"
   read -p "Redémarrage nécessaire. Confirmer (o/n) : " reponse
   case $reponse in
