@@ -28,7 +28,9 @@ fi
 # Fonctions
 enable_tempalias() {
   warning "Création de l'alias temp..."
-  echo -e "\n# Temperature\nalias temp='sudo /usr/bin/vcgencmd measure_temp'" >>/etc/profile
+  if ! grep -qxF "alias temp='sudo /usr/bin/vcgencmd measure_temp'" /etc/profile; then
+    echo -e "\n# Temperature\nalias temp='sudo /usr/bin/vcgencmd measure_temp'" >>/etc/profile
+  fi
   echo "%sudo ALL=(ALL) NOPASSWD: /usr/bin/vcgencmd measure_temp" >/etc/sudoers.d/010_temp
   chmod 440 /etc/sudoers.d/010_temp
   message "Alias temp ajouté à /etc/profile"
@@ -45,17 +47,17 @@ disable_swap() {
 
 disable_wifi() {
   warning "Désactivation du Wifi..."
-  echo "dtoverlay=disable-wifi" | tee -a /boot/firmware/config.txt
-  systemctl disable wpa_supplicant
-  apt purge -y wpasupplicant
+  systemctl disable wpa_supplicant || return 1
+  apt purge -y wpasupplicant || return 1
+  grep -qxF "dtoverlay=disable-wifi" /boot/firmware/config.txt || echo "dtoverlay=disable-wifi" | tee -a /boot/firmware/config.txt
   message "Wifi désactivé"
 }
 
 disable_bluetooth() {
   warning "Désactivation du Bluetooth..."
-  echo "dtoverlay=disable-bt" | tee -a /boot/firmware/config.txt
-  systemctl disable hciuart
-  apt purge -y bluez
+  systemctl disable hciuart || return 1
+  apt purge -y bluez || return 1
+  grep -qxF "dtoverlay=disable-bt" /boot/firmware/config.txt || echo "dtoverlay=disable-bt" | tee -a /boot/firmware/config.txt
   message "Bluetooth désactivé"
 }
 
@@ -127,7 +129,7 @@ if [[ -n "$1" ]]; then
   fi
   "$1"
 else
-  apt update
+  apt update || exit 1
   while read -r line; do
     [[ -z "$line" || "$line" == \#* ]] && continue
     if ! declare -f "$line" >/dev/null; then
