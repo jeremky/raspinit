@@ -107,7 +107,7 @@ install_log2ram() {
     apt -y install rsync log2ram
     cp "$dir/config/log2ram.conf" /etc/log2ram.conf
     message "Installation de log2ram effectuée"
-    read -p "Redémarrage nécessaire. Confirmer (o/n) : " reponse
+    read -rp "Redémarrage nécessaire. Confirmer (o/n) : " reponse
     case $reponse in
       o)
         reboot
