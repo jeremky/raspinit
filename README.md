@@ -45,8 +45,10 @@ install_log2ram
 
 ### Configuration des applications
 
-Pour les applications `ddclient`, `adguard` et `log2ram`, vous devez préparer les fichiers présents dans le sous dossier `config`.
+Pour les applications `ddclient`, `shairport-sync` et `log2ram`, vous devez préparer les fichiers présents dans le sous dossier `config`.
 Si la fonction d'installation est appelée, ce sont ces fichiers qui seront copiés dans `/etc` lors de l'installation.
+
+> `install_adguard` ne nécessite aucun fichier de configuration : l'installation se fait directement via le script officiel AdGuard Home.
 
 ## Exécution
 
