@@ -27,7 +27,7 @@ fi
 
 # Functions
 enable_tempalias() {
-  warning "Creating temp alias..."
+  warning "Creating temp alias"
   if ! grep -qxF "alias temp='sudo /usr/bin/vcgencmd measure_temp'" /etc/profile; then
     echo -e "\n# Temperature\nalias temp='sudo /usr/bin/vcgencmd measure_temp'" >>/etc/profile
   fi
@@ -37,7 +37,7 @@ enable_tempalias() {
 }
 
 disable_swap() {
-  warning "Disabling swap..."
+  warning "Disabling swap"
   swapoff --all
   apt -y remove dphys-swapfile
   apt -y autoremove
@@ -46,7 +46,7 @@ disable_swap() {
 }
 
 disable_wifi() {
-  warning "Disabling Wi-Fi..."
+  warning "Disabling Wi-Fi"
   systemctl disable wpa_supplicant || return 1
   apt purge -y wpasupplicant || return 1
   grep -qxF "dtoverlay=disable-wifi" /boot/firmware/config.txt || echo "dtoverlay=disable-wifi" | tee -a /boot/firmware/config.txt
@@ -54,7 +54,7 @@ disable_wifi() {
 }
 
 disable_bluetooth() {
-  warning "Disabling Bluetooth..."
+  warning "Disabling Bluetooth"
   systemctl disable hciuart || return 1
   apt purge -y bluez || return 1
   grep -qxF "dtoverlay=disable-bt" /boot/firmware/config.txt || echo "dtoverlay=disable-bt" | tee -a /boot/firmware/config.txt
@@ -62,13 +62,13 @@ disable_bluetooth() {
 }
 
 disable_modem() {
-  warning "Removing ModemManager..."
+  warning "Removing ModemManager"
   apt purge -y modemmanager
   message "ModemManager removed"
 }
 
 install_ddclient() {
-  warning "Installing ddclient..."
+  warning "Installing ddclient"
   if [[ ! -f "$dir/config/ddclient.conf" ]]; then
     error "File $dir/config/ddclient.conf not found"
   else
@@ -80,7 +80,7 @@ install_ddclient() {
 }
 
 install_adguard() {
-  warning "Installing AdGuard Home..."
+  warning "Installing AdGuard Home"
   if curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v; then
     message "AdGuard Home installed"
   else
@@ -102,14 +102,14 @@ install_shairport() {
 }
 
 install_log2ram() {
-  warning "Installing log2ram..."
+  warning "Installing log2ram"
   if [[ ! -f "$dir/config/log2ram.conf" ]]; then
     error "File $dir/config/log2ram.conf not found"
   else
     apt -y install rsync log2ram
     cp "$dir/config/log2ram.conf" /etc/log2ram.conf
     message "log2ram installed"
-    read -rp "Reboot required. Confirm (y/n): " answer
+    read -rp "Reboot required. Reboot now? (y/n): " answer
     case $answer in
       y)
         reboot
