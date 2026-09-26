@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# Messages en couleur
+# Colored messages
 error() { echo -e "\033[0;31m====> $*\033[0m"; }
 message() { echo -e "\033[0;32m====> $*\033[0m"; }
 warning() { echo -e "\033[0;33m====> $*\033[0m"; }
 
-# Vérification de l'OS
+# Check OS
 if [[ ! -f /usr/bin/raspi-config ]]; then
-  error "Appareil Incompatible !"
+  error "Incompatible device!"
   exit 1
 fi
 
@@ -15,116 +15,116 @@ fi
 dir=$(dirname "$0")
 cfg="$dir/raspinit.cfg"
 if [[ ! -f "$cfg" ]]; then
-  error "Fichier $cfg introuvable"
+  error "File $cfg not found"
   exit 1
 fi
 
 # User
 if [[ "$EUID" -ne 0 ]]; then
-  error "Droits root nécessaires"
+  error "Root privileges required"
   exit 1
 fi
 
-# Fonctions
+# Functions
 enable_tempalias() {
-  warning "Création de l'alias temp..."
+  warning "Creating temp alias..."
   if ! grep -qxF "alias temp='sudo /usr/bin/vcgencmd measure_temp'" /etc/profile; then
     echo -e "\n# Temperature\nalias temp='sudo /usr/bin/vcgencmd measure_temp'" >>/etc/profile
   fi
   echo "%sudo ALL=(ALL) NOPASSWD: /usr/bin/vcgencmd measure_temp" >/etc/sudoers.d/010_temp
   chmod 440 /etc/sudoers.d/010_temp
-  message "Alias temp ajouté à /etc/profile"
+  message "temp alias added to /etc/profile"
 }
 
 disable_swap() {
-  warning "Désactivation du Swap..."
+  warning "Disabling swap..."
   swapoff --all
   apt -y remove dphys-swapfile
   apt -y autoremove
   rm -f /var/swap
-  message "Swap désactivé"
+  message "Swap disabled"
 }
 
 disable_wifi() {
-  warning "Désactivation du Wifi..."
+  warning "Disabling Wi-Fi..."
   systemctl disable wpa_supplicant || return 1
   apt purge -y wpasupplicant || return 1
   grep -qxF "dtoverlay=disable-wifi" /boot/firmware/config.txt || echo "dtoverlay=disable-wifi" | tee -a /boot/firmware/config.txt
-  message "Wifi désactivé"
+  message "Wi-Fi disabled"
 }
 
 disable_bluetooth() {
-  warning "Désactivation du Bluetooth..."
+  warning "Disabling Bluetooth..."
   systemctl disable hciuart || return 1
   apt purge -y bluez || return 1
   grep -qxF "dtoverlay=disable-bt" /boot/firmware/config.txt || echo "dtoverlay=disable-bt" | tee -a /boot/firmware/config.txt
-  message "Bluetooth désactivé"
+  message "Bluetooth disabled"
 }
 
 disable_modem() {
-  warning "Suppression de ModemManager..."
+  warning "Removing ModemManager..."
   apt purge -y modemmanager
-  message "ModemManager supprimé"
+  message "ModemManager removed"
 }
 
 install_ddclient() {
-  warning "Installation de ddclient..."
+  warning "Installing ddclient..."
   if [[ ! -f "$dir/config/ddclient.conf" ]]; then
-    error "Fichier $dir/config/ddclient.conf non présent"
+    error "File $dir/config/ddclient.conf not found"
   else
     apt -y install ddclient
     cp "$dir/config/ddclient.conf" /etc/ddclient.conf
     systemctl restart ddclient
-    message "Installation de ddclient effectuée"
+    message "ddclient installed"
   fi
 }
 
 install_adguard() {
-  warning "Installation de Adguard Home..."
+  warning "Installing AdGuard Home..."
   if curl -s -S -L https://raw.githubusercontent.com/AdguardTeam/AdGuardHome/master/scripts/install.sh | sh -s -- -v; then
-    message "Installation de Adguard Home effectuée"
+    message "AdGuard Home installed"
   else
-    error " Echec de l'installation de Adguard Home"
+    error "Failed to install AdGuard Home"
   fi
 }
 
 install_shairport() {
-  warning "Installation de shairport sync"
+  warning "Installing shairport-sync"
   if [[ ! -f "$dir/config/shairport.conf" ]]; then
-    error "Fichier $dir/config/shairport.conf non présent"
+    error "File $dir/config/shairport.conf not found"
   else
     apt -y install shairport-sync
     cp "$dir/config/shairport.conf" /etc/shairport-sync.conf
     echo -e "# Shairport\n0 6 * * * root /usr/bin/systemctl restart shairport-sync.service >/dev/null 2>&1" >/etc/cron.d/shairport
     systemctl restart shairport-sync
-    message "Installation de shairport sync effectuée"
+    message "shairport-sync installed"
   fi
 }
 
 install_log2ram() {
-  warning "Installation de Log2ram..."
+  warning "Installing log2ram..."
   if [[ ! -f "$dir/config/log2ram.conf" ]]; then
-    error "Fichier $dir/config/log2ram.conf non présent"
+    error "File $dir/config/log2ram.conf not found"
   else
     apt -y install rsync log2ram
     cp "$dir/config/log2ram.conf" /etc/log2ram.conf
-    message "Installation de log2ram effectuée"
-    read -rp "Redémarrage nécessaire. Confirmer (o/n) : " reponse
-    case $reponse in
-      o)
+    message "log2ram installed"
+    read -rp "Reboot required. Confirm (y/n): " answer
+    case $answer in
+      y)
         reboot
         ;;
       *)
-        warning "Redémarrez avant toute autre installation !"
+        warning "Reboot before installing anything else!"
         ;;
     esac
   fi
 }
 
-# Exécution des fonctions
+# Run functions
 if [[ -n "$1" ]]; then
   if ! declare -f "$1" >/dev/null; then
-    error "Aucune fonction ne correspond au paramètre $1"
+    error "No function matches parameter $1"
     exit 1
   fi
   "$1"
@@ -133,7 +133,7 @@ else
   while read -r line; do
     [[ -z "$line" || "$line" == \#* ]] && continue
     if ! declare -f "$line" >/dev/null; then
-      error "Aucune fonction ne correspond au paramètre $line"
+      error "No function matches parameter $line"
       exit 1
     fi
     "$line"

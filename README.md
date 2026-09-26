@@ -1,29 +1,29 @@
 # raspinit
 
-Script post installation pour Raspberry Pi. Il permet d'automatiser la configuration de certains éléments de votre carte :
+A post-install script for Raspberry Pi. It automates the configuration of several parts of your board:
 
-- Ajoute un alias `temp` pour obtenir facilement la température du Raspberry Pi
+- Adds a `temp` alias to easily get the Raspberry Pi's temperature
 
-- Désactive le swap, afin de limiter les écritures sur la carte SD
+- Disables swap, to reduce writes to the SD card
 
-- Désactive le Wifi et le Bluetooth
+- Disables Wi-Fi and Bluetooth
 
-- Supprime Modem Manager
+- Removes ModemManager
 
-- Permet d'installer les applications suivantes :
+- Can install the following applications:
 
-  - [log2ram](https://github.com/azlux/log2ram) : réduction des écritures sur la SD
+  - [log2ram](https://github.com/azlux/log2ram): reduces writes to the SD card
 
-  - [AdGuardHome](https://github.com/AdguardTeam/AdGuardHome) : bloqueur de pubs
+  - [AdGuardHome](https://github.com/AdguardTeam/AdGuardHome): ad blocker
 
-  - [ddclient](https://github.com/ddclient/ddclient) : mise à jour DNS dynamique
+  - [ddclient](https://github.com/ddclient/ddclient): dynamic DNS updates
 
-  - [shairport-sync](https://github.com/mikebrady/shairport-sync) : serveur AirPlay
+  - [shairport-sync](https://github.com/mikebrady/shairport-sync): AirPlay server
 
 ## Configuration
 
-Un fichier de configuration `raspinit.cfg` permet de paramétrer l'exécution du script selon vos préférences.
-Commentez les fonctions que vous ne voulez pas utiliser :
+The `raspinit.cfg` config file lets you configure how the script runs to suit your preferences.
+Comment out the functions you don't want to use:
 
 ```txt
 # raspinit config
@@ -41,26 +41,26 @@ install_shairport
 install_log2ram
 ```
 
-> **Important** : `install_log2ram` doit être placé en fin de fichier, car son installation nécessite un redémarrage. Les actions suivantes ne seront pas exécutées après un redémarrage.
+> **Important**: `install_log2ram` must be placed at the end of the file, because its installation requires a reboot. Any following actions won't run after the reboot.
 
-### Configuration des applications
+### Application configuration
 
-Pour les applications `ddclient`, `shairport-sync` et `log2ram`, vous devez préparer les fichiers présents dans le sous dossier `config`.
-Si la fonction d'installation est appelée, ce sont ces fichiers qui seront copiés dans `/etc` lors de l'installation.
+For `ddclient`, `shairport-sync` and `log2ram`, you need to prepare the files in the `config` subdirectory.
+When the install function is called, these files are copied to `/etc` during installation.
 
-> `install_adguard` ne nécessite aucun fichier de configuration : l'installation se fait directement via le script officiel AdGuard Home.
+> `install_adguard` doesn't need any config file: it installs directly via the official AdGuard Home script.
 
-## Exécution
+## Running
 
-Une fois le fichier `raspinit.cfg` modifié, lancez le script avec les droits root :
+Once you've edited `raspinit.cfg`, run the script with root privileges:
 
 ```bash
 sudo ./raspinit.sh
 ```
 
-> Si l'installation de log2ram est activé, un redémarrage vous sera demandé après son installation
+> If log2ram installation is enabled, you'll be asked to reboot after it's installed
 
-Il est possible, en cas de problème ou d'oubli, d'exécuter une action spécifique, en passant le processus en paramètre. Par exemple, si vous voulez seulement installer AGuardHome :
+If something goes wrong or you forgot a step, you can run a specific action by passing it as an argument. For example, to only install AdGuardHome:
 
 ```bash
 sudo ./raspinit.sh install_adguard
