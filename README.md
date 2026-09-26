@@ -41,16 +41,16 @@ install_shairport
 install_log2ram
 ```
 
-> **Important**: `install_log2ram` must be placed at the end of the file, because its installation requires a reboot. Any following actions won't run after the reboot.
+> **Important**: `install_log2ram` must be placed at the end of the file, because its installation requires a reboot. Any actions listed after it won't run.
 
 ### Application configuration
 
 For `ddclient`, `shairport-sync` and `log2ram`, you need to prepare the files in the `config` subdirectory.
-When the install function is called, these files are copied to `/etc` during installation.
+These files are copied to `/etc` when the matching install function runs.
 
 > `install_adguard` doesn't need any config file: it installs directly via the official AdGuard Home script.
 
-## Running
+## Usage
 
 Once you've edited `raspinit.cfg`, run the script with root privileges:
 
