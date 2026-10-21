@@ -171,12 +171,13 @@ if [[ ! -f "$cfg" ]]; then
 fi
 
 if [[ -n "$1" ]]; then
-  if ! declare -f "$1" >/dev/null; then
-    error "No function matches parameter $1"
+  if declare -f "$1" >/dev/null; then
+    "$1"
+    exit 0
+  else
+    error "Function $1 not found"
     exit 1
   fi
-  "$1"
-  exit
 fi
 
 warning "Updating packages"
@@ -188,9 +189,10 @@ echo
 
 while read -r line; do
   [[ -z "$line" || "$line" == \#* ]] && continue
-  if ! declare -f "$line" >/dev/null; then
+  if declare -f "$line" >/dev/null; then
+    "$line"
+  else
     error "No function matches parameter $line"
     exit 1
   fi
-  "$line"
 done <"$cfg"
