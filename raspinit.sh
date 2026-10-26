@@ -92,6 +92,17 @@ disable_modem() {
   echo
 }
 
+disable_ipv6() {
+  warning "Disabling ipv6"
+  tee "/etc/sysctl.d/99-ipv6.conf" <<EOF
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.default.disable_ipv6 = 1
+net.ipv6.conf.lo.disable_ipv6 = 1
+EOF
+  sysctl --system
+  message "ipv6 disabled"
+}
+
 install_ddclient() {
   if [[ ! -f "$dir/ddclient.conf" ]]; then
     error "File $dir/ddclient.conf not found"
