@@ -100,6 +100,9 @@ net.ipv6.conf.default.disable_ipv6 = 1
 net.ipv6.conf.lo.disable_ipv6 = 1
 EOF
   sysctl --system
+  if command -v ufw &>/dev/null; then
+    sed -i "s,IPV6=yes,IPV6=no," /etc/default/ufw
+  fi
   message "ipv6 disabled"
 }
 
